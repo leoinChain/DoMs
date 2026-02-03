@@ -142,7 +142,7 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
-      <div className="main-container flex-1 overflow-auto bg-[#EDFFF8]">
+      <div className="main-container flex-1 overflow-auto bg-[#F8FFFC]">
         <div className="p-6 space-y-6">
           {/* Page Header with Tabs */}
           <div className="flex items-center justify-between">
@@ -320,11 +320,28 @@ const Dashboard = () => {
         <DialogContent>
           <DialogHeader>
             <div className="mb-4">
-              <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center mb-4">
-                <span className="text-muted-foreground text-sm">Onboarding Image</span>
+              <div className="w-full h-48 bg-gradient-to-br from-primary/10 via-primary/5 to-background rounded-lg flex items-center justify-center mb-4 overflow-hidden border border-primary/20">
+                <div className="w-full h-full p-4 flex flex-col gap-2">
+                  {/* Simulated dashboard interface */}
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="h-3 w-20 bg-primary/30 rounded"></div>
+                    <div className="h-3 w-16 bg-primary/20 rounded"></div>
+                  </div>
+                  <div className="flex-1 bg-white/50 rounded p-3 space-y-2">
+                    <div className="h-2 w-full bg-primary/20 rounded"></div>
+                    <div className="h-2 w-3/4 bg-primary/15 rounded"></div>
+                    <div className="flex gap-2 mt-3">
+                      <div className="h-8 w-8 bg-primary/30 rounded"></div>
+                      <div className="flex-1 space-y-1">
+                        <div className="h-2 w-full bg-primary/20 rounded"></div>
+                        <div className="h-2 w-2/3 bg-primary/15 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <DialogTitle className="font-light">Welcome to ImYoo</DialogTitle>
+            <DialogTitle className="font-light">Welcome to AminoChain's Donor System</DialogTitle>
             <DialogDescription>
               Let's get you started with a quick tour of the platform.
             </DialogDescription>

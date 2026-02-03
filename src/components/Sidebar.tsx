@@ -92,11 +92,11 @@ const Sidebar = () => {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "nav-item flex items-center gap-[6px] px-0.5 rounded-[2px] text-xs font-regular transition-all relative group flex-1 p-2",
+                  "nav-item flex items-center gap-[6px] px-0.5 rounded-[2px] text-xs font-regular transition-all relative group flex-1 p-2 py-[7.5px]",
                   isCollapsed && "justify-center",
                   active
-                    ? "bg-[#DDFFF4] text-[#0D5C43] py-[7.5px]"
-                    : "text-[#525252] py-[5px] hover:bg-[#F0F0F0] hover:text-[#222222] focus:bg-[#DDFFF4] focus:text-[#0D5C43] focus:py-[7.5px]"
+                    ? "bg-[#DDFFF4] text-[#0D5C43]"
+                    : "text-[#525252] hover:bg-[#F0F0F0] hover:text-[#222222] focus:bg-[#DDFFF4] focus:text-[#0D5C43]"
                 )}
                 title={isCollapsed ? item.label : undefined}
               >

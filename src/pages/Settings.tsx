@@ -56,7 +56,7 @@ const Settings = () => {
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
-      <div className="main-container flex-1 overflow-auto bg-[#EDFFF8]">
+      <div className="main-container flex-1 overflow-auto bg-[#F8FFFC]">
         <div className="p-6 space-y-6">
           {/* Page Header */}
           <div className="space-y-2">

@@ -121,7 +121,7 @@ const CollectionProgress = () => {
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
-      <div className="main-container flex-1 overflow-auto bg-[#EDFFF8]">
+      <div className="main-container flex-1 overflow-auto bg-[#F8FFFC]">
         <div className="p-6 space-y-6">
           {/* Top Navigation Bar */}
           <div className="flex items-center justify-between bg-white rounded-lg p-4 shadow-sm">
