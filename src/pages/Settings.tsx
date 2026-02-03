@@ -8,7 +8,14 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Mail, Trash2 } from "lucide-react";
 
 const Settings = () => {
-  const [organizationName, setOrganizationName] = useState("AminoChain Research");
+  const [organizationName, setOrganizationName] = useState(() => {
+    const stored = localStorage.getItem("organizationName");
+    if (!stored) {
+      localStorage.setItem("organizationName", "AminoChain Research");
+      return "AminoChain Research";
+    }
+    return stored;
+  });
   const [organizationAddress, setOrganizationAddress] = useState("");
   const [organizationWebsite, setOrganizationWebsite] = useState("");
   const [organizationPhone, setOrganizationPhone] = useState("");
@@ -49,7 +56,7 @@ const Settings = () => {
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 overflow-auto">
+      <div className="main-container flex-1 overflow-auto bg-[#EDFFF8]">
         <div className="p-6 space-y-6">
           {/* Page Header */}
           <div className="space-y-2">
@@ -75,7 +82,13 @@ const Settings = () => {
                   <Input
                     type="text"
                     value={organizationName}
-                    onChange={(e) => setOrganizationName(e.target.value)}
+                    onChange={(e) => {
+                      const newName = e.target.value;
+                      setOrganizationName(newName);
+                      localStorage.setItem("organizationName", newName);
+                      // Dispatch custom event for same-window updates
+                      window.dispatchEvent(new Event("organizationNameUpdated"));
+                    }}
                     className="font-regular"
                   />
                 </div>
@@ -128,7 +141,7 @@ const Settings = () => {
                   />
                 </div>
                 <div className="pt-4 border-t">
-                  <Button variant="destructive" className="font-regular w-full">
+                  <Button variant="outline" className="font-regular w-full bg-white hover:bg-[#F0F0F0]">
                     Delete Account
                   </Button>
                 </div>
@@ -173,7 +186,7 @@ const Settings = () => {
                   {teamMembers.map((member) => (
                     <div
                       key={member.id}
-                      className="flex items-center justify-between p-3 hover:bg-accent/50 rounded-lg transition-colors"
+                      className="flex items-center justify-between p-3 hover:bg-[#F0F0F0] rounded-lg transition-colors"
                     >
                       <div className="flex items-center gap-3 flex-1">
                         <Avatar className="h-10 w-10">

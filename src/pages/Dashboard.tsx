@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import SegmentedProgress from "@/components/SegmentedProgress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
@@ -10,6 +12,7 @@ import OnboardingTooltip from "@/components/OnboardingTooltip";
 import { ChevronRight } from "lucide-react";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -41,7 +44,7 @@ const Dashboard = () => {
       id: 1,
       name: "Cardiovascular Biomarker",
       description: "Identifying novel biomarkers f...",
-      participants: { avatars: ["A", "B", "C"], count: 329 },
+      participants: { avatars: ["A", "B", "C"], count: 329, enrolledOutOf: 87 },
       progress: 94,
       dueDate: "Feb 15, 2026",
       conversion: 82,
@@ -51,7 +54,7 @@ const Dashboard = () => {
       id: 2,
       name: "Gut Microbiome",
       description: "Exploring the gut-brain axis c...",
-      participants: { avatars: ["A", "B", "C"], count: 156 },
+      participants: { avatars: ["A", "B", "C"], count: 156, enrolledOutOf: 42 },
       progress: 78,
       dueDate: "May 1, 2026",
       conversion: 45,
@@ -61,7 +64,7 @@ const Dashboard = () => {
       id: 3,
       name: "Pharmacogenomics Pilot",
       description: "Testing personalized drug resp...",
-      participants: { avatars: ["A"], count: 12 },
+      participants: { avatars: ["A"], count: 12, enrolledOutOf: 15 },
       progress: 24,
       dueDate: "Jul 10, 2026",
       conversion: 18,
@@ -125,9 +128,6 @@ const Dashboard = () => {
     } else if (onboardingStep === 2) {
       // Move to tooltip pointing to Settings nav
       setOnboardingStep(3);
-    } else if (onboardingStep === 3) {
-      // Move to tooltip pointing to Participants nav
-      setOnboardingStep(4);
     } else {
       setShowOnboarding(false);
       localStorage.setItem("hasSeenOnboarding", "true");
@@ -142,7 +142,7 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 overflow-auto">
+      <div className="main-container flex-1 overflow-auto bg-[#EDFFF8]">
         <div className="p-6 space-y-6">
           {/* Page Header with Tabs */}
           <div className="flex items-center justify-between">
@@ -154,7 +154,7 @@ const Dashboard = () => {
                   <button
                     key={item}
                     onClick={() => setActiveTab(value)}
-                    className={`px-4 py-2 text-sm font-regular transition-colors border-b-2 ${
+                    className={`px-4 py-2 text-xs font-regular transition-colors border-b-2 ${
                       activeTab === value
                         ? "border-primary text-foreground"
                         : "border-transparent text-muted-foreground hover:text-foreground"
@@ -168,7 +168,7 @@ const Dashboard = () => {
           </div>
 
           {/* Active Studies Section */}
-          <Card>
+          <Card id="active-studies-section">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="font-light">Active Studies</CardTitle>
@@ -179,20 +179,20 @@ const Dashboard = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Study
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Participants
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
-                        Progress
-                      </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Due date
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Average Conversion
+                      </th>
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
+                        Collection progress
                       </th>
                     </tr>
                   </thead>
@@ -202,7 +202,8 @@ const Dashboard = () => {
                         key={study.id}
                         ref={index === 0 ? firstStudyRef : null}
                         data-study-row={index === 0 ? "first" : undefined}
-                        className="border-b"
+                        className="border-b cursor-pointer hover:bg-[#F0F0F0] transition-colors"
+                        onClick={() => navigate(`/studies/${study.id}`)}
                       >
                         <td className="py-4 px-4">
                           <div>
@@ -214,24 +215,23 @@ const Dashboard = () => {
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center gap-2">
-                            <div className="flex -space-x-2">
-                              {study.participants.avatars.map((avatar, idx) => (
-                                <Avatar key={idx} className="h-8 w-8 border-2 border-background">
-                                  <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                                    {avatar}
-                                  </AvatarFallback>
-                                </Avatar>
-                              ))}
+                            <div className="flex flex-col gap-1">
+                              <span className="text-xs font-regular text-foreground">
+                                {Math.min(study.participants.enrolledOutOf, 100)} out of 100
+                              </span>
+                              <div className="flex -space-x-2">
+                                {study.participants.avatars.slice(0, Math.min(study.participants.avatars.length, 3)).map((avatar, idx) => (
+                                  <Avatar key={idx} className="h-8 w-8 border-2 border-background">
+                                    <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                                      {avatar}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                ))}
+                              </div>
+                              <span className="text-sm text-muted-foreground">
+                                +{Math.min(study.participants.count, 100)}
+                              </span>
                             </div>
-                            <span className="text-sm text-muted-foreground">
-                              +{study.participants.count}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="py-4 px-4">
-                          <div className="space-y-1">
-                            <Progress value={study.progress} className="h-2" />
-                            <span className="text-sm font-regular">{study.progress}%</span>
                           </div>
                         </td>
                         <td className="py-4 px-4 text-sm">{study.dueDate}</td>
@@ -241,6 +241,23 @@ const Dashboard = () => {
                             <Badge variant={getConversionLevel(study.conversion).variant}>
                               {getConversionLevel(study.conversion).level}
                             </Badge>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="space-y-2">
+                            <SegmentedProgress value={study.progress} />
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-regular">{study.progress}%</span>
+                              <button
+                                className="text-xs font-regular text-primary underline hover:text-primary/80 cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/studies/${study.id}/collection-progress`);
+                                }}
+                              >
+                                View process
+                              </button>
+                            </div>
                           </div>
                         </td>
                       </tr>
@@ -264,12 +281,12 @@ const Dashboard = () => {
                 {filteredTasks.map((task) => (
                   <div
                     key={task.id}
-                    className="p-4 border rounded-lg hover:bg-accent/50 transition-colors"
+                    className="p-4 border rounded-lg hover:bg-[#F0F0F0] transition-colors"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-regular">{task.title}</h3>
+                          <h4 className="font-regular">{task.title}</h4>
                           <Badge variant={task.priority}>{task.priority}</Badge>
                         </div>
                         <p className="text-sm text-muted-foreground mb-2">
@@ -316,7 +333,7 @@ const Dashboard = () => {
           <DialogFooter>
             <div className="flex items-center justify-between w-full">
               <div className="flex gap-2">
-                {[1, 2, 3, 4].map((step) => (
+                {[1, 2, 3].map((step) => (
                   <div
                     key={step}
                     className={`h-1 w-8 rounded ${
@@ -347,15 +364,16 @@ const Dashboard = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Step 2: Tooltip pointing to first Active Study */}
+      {/* Step 2: Tooltip pointing to Active Studies section */}
       <OnboardingTooltip
         isOpen={showOnboarding && onboardingStep === 2}
         onClose={handleSkip}
         onNext={handleNextStep}
-        targetSelector='tr[data-study-row="first"]'
+        targetSelector="#active-studies-section"
         title="View Current Collection"
         description="You can now view your current collection of studies and participants."
-        position="right"
+        position="bottom"
+        unblurSelector="#active-studies-section"
       />
 
       {/* Step 3: Tooltip pointing to Settings nav */}
@@ -367,18 +385,7 @@ const Dashboard = () => {
         title="Invite Team Members"
         description="Add more people to the tool by inviting them via email in Settings."
         position="right"
-      />
-
-      {/* Step 4: Tooltip pointing to Participants nav */}
-      <OnboardingTooltip
-        isOpen={showOnboarding && onboardingStep === 4}
-        onClose={handleSkip}
-        onNext={handleNextStep}
-        targetSelector='a[href="/participants"]'
-        title="You're all set"
-        description="Participants are de-identified but easy to engage with under this section."
-        position="right"
-        showNext={false}
+        unblurSelector='a[href="/settings"]'
       />
     </div>
   );

@@ -67,14 +67,11 @@ const Participants = () => {
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 overflow-auto">
+      <div className="main-container flex-1 overflow-auto bg-[#EDFFF8]">
         <div className="p-6 space-y-6">
           {/* Page Header */}
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <UsersIcon className="h-5 w-5 text-muted-foreground" />
-              <h1 className="text-2xl font-light">Participants</h1>
-            </div>
+            <h1 className="text-2xl font-light">Participants</h1>
             <p className="text-sm text-muted-foreground">
               View all participants across studies.
             </p>
@@ -121,32 +118,32 @@ const Participants = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         ID
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Age
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Gender
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Studies
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Has Account
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         # of Assets
                       </th>
-                      <th className="text-left py-3 px-4 font-regular text-muted-foreground">
+                      <th className="text-left py-3 px-4 font-regular text-muted-foreground text-[14px]">
                         Enrolled
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredParticipants.map((participant) => (
-                      <tr key={participant.id} className="border-b hover:bg-accent/50 transition-colors">
+                      <tr key={participant.id} className="border-b hover:bg-[#F0F0F0] transition-colors">
                         <td className="py-4 px-4 font-regular">{participant.id}</td>
                         <td className="py-4 px-4 text-sm">{participant.age}</td>
                         <td className="py-4 px-4 text-sm">{participant.gender}</td>

@@ -14,6 +14,7 @@ interface OnboardingTooltipProps {
   showSkip?: boolean;
   showNext?: boolean;
   position?: "top" | "bottom" | "left" | "right";
+  unblurSelector?: string; // Selector for element to unblur
 }
 
 const OnboardingTooltip = ({
@@ -26,9 +27,26 @@ const OnboardingTooltip = ({
   showSkip = true,
   showNext = true,
   position = "bottom",
+  unblurSelector,
 }: OnboardingTooltipProps) => {
   const [positionStyle, setPositionStyle] = useState<React.CSSProperties>({});
   const tooltipRef = useRef<HTMLDivElement>(null);
+
+  // Handle unblur effect
+  useEffect(() => {
+    if (!isOpen || !unblurSelector) return;
+
+    const unblurElement = document.querySelector(unblurSelector);
+    if (unblurElement) {
+      unblurElement.classList.add("onboarding-unblur");
+    }
+
+    return () => {
+      if (unblurElement) {
+        unblurElement.classList.remove("onboarding-unblur");
+      }
+    };
+  }, [isOpen, unblurSelector]);
 
   useEffect(() => {
     if (!isOpen || !targetSelector) return;
@@ -104,10 +122,36 @@ const OnboardingTooltip = ({
         className="fixed z-50 w-80 bg-background border rounded-lg shadow-lg p-4"
         style={positionStyle}
       >
+        {/* Pointer indicator - pointing to target */}
+        {position === "top" && (
+          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 z-10">
+            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-background"></div>
+            <div className="absolute top-[-1px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-border"></div>
+          </div>
+        )}
+        {position === "bottom" && (
+          <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-10">
+            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-background"></div>
+            <div className="absolute bottom-[-1px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-border"></div>
+          </div>
+        )}
+        {position === "left" && (
+          <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 z-10">
+            <div className="w-0 h-0 border-t-[6px] border-b-[6px] border-l-[6px] border-t-transparent border-b-transparent border-l-background"></div>
+            <div className="absolute left-[-1px] top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-l-[6px] border-t-transparent border-b-transparent border-l-border"></div>
+          </div>
+        )}
+        {position === "right" && (
+          <div className="absolute -left-2 top-1/2 transform -translate-y-1/2 z-10">
+            <div className="w-0 h-0 border-t-[6px] border-b-[6px] border-r-[6px] border-t-transparent border-b-transparent border-r-background"></div>
+            <div className="absolute right-[-1px] top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[6px] border-t-transparent border-b-transparent border-r-border"></div>
+          </div>
+        )}
+        
         <div className="flex items-start justify-between mb-2">
           <div className="flex-1">
-            <h3 className="font-light text-lg mb-1">{title}</h3>
-            <p className="text-sm text-muted-foreground">{description}</p>
+            <h3 className="font-light text-[18px] mb-1">{title}</h3>
+            <p className="text-[14px] text-muted-foreground">{description}</p>
           </div>
           <button
             onClick={onClose}

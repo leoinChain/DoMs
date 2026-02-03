@@ -9,6 +9,7 @@ import StudyDashboard from "./pages/StudyDashboard";
 import Participants from "./pages/Participants";
 import Settings from "./pages/Settings";
 import ParticipantWorkflow from "./pages/ParticipantWorkflow";
+import CollectionProgress from "./pages/CollectionProgress";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,10 @@ const App = () => (
           <Route
             path="/studies/:studyId/participants/:participantId/workflow"
             element={<ParticipantWorkflow />}
+          />
+          <Route
+            path="/studies/:studyId/collection-progress"
+            element={<CollectionProgress />}
           />
           <Route path="/participants" element={<Participants />} />
           <Route path="/settings" element={<Settings />} />

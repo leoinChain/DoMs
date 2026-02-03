@@ -18,22 +18,23 @@ export const GridIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Paw print icon (Participants) - 3 circles on top, U-shape below
+// Paw print icon (Participants) - pixelated style: three circles on top, trapezoidal pad below
 export const PawIcon = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
     fill="currentColor"
     className={className}
   >
-    <circle cx="7" cy="7" r="2.5" />
-    <circle cx="12" cy="7" r="2.5" />
-    <circle cx="17" cy="7" r="2.5" />
-    <path d="M8 14c-1.5 0-3 1-3 2.5s1.5 2.5 3 2.5 3-1 3-2.5-1.5-2.5-3-2.5zm8 0c-1.5 0-3 1-3 2.5s1.5 2.5 3 2.5 3-1 3-2.5-1.5-2.5-3-2.5z" />
-    <ellipse cx="12" cy="16" rx="4" ry="3" />
+    {/* Three smaller circular shapes arranged horizontally at the top */}
+    <circle cx="8" cy="8" r="2" />
+    <circle cx="12" cy="7" r="2" />
+    <circle cx="16" cy="8" r="2" />
+    {/* Main pad below - simplified rounded shape */}
+    <path d="M12 10c-3 0-5 2-5 5s2 5 5 5 5-2 5-5-2-5-5-5z" />
   </svg>
 );
 
-// Settings/Gear icon
+// Settings/Gear icon - six-petaled flower/gear with center square
 export const GearIcon = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
@@ -44,8 +45,15 @@ export const GearIcon = ({ className }: { className?: string }) => (
     strokeLinejoin="round"
     className={className}
   >
-    <circle cx="12" cy="12" r="3" />
-    <path d="M12 1v6m0 6v6M5.64 5.64l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M5.64 18.36l4.24-4.24m4.24-4.24l4.24-4.24" />
+    {/* Six rounded lobes/petals arranged in a circle */}
+    <circle cx="12" cy="4" r="2.5" />
+    <circle cx="19.07" cy="7.07" r="2.5" />
+    <circle cx="19.07" cy="16.93" r="2.5" />
+    <circle cx="12" cy="20" r="2.5" />
+    <circle cx="4.93" cy="16.93" r="2.5" />
+    <circle cx="4.93" cy="7.07" r="2.5" />
+    {/* Small solid square in the center */}
+    <rect x="10" y="10" width="4" height="4" />
   </svg>
 );
 
